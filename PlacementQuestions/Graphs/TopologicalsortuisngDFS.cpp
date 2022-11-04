@@ -41,36 +41,36 @@ Constraints:
 2 ≤ V ≤ 104
 1 ≤ E ≤ (N*(N-1))/2
 */
+
 class Solution
 {
 	public:
 	//Function to return list containing vertices in Topological order. 
-	void dfs(vector<int>adj[], stack<int>&s, vector<int>&v,   vector<bool>&visited, int i)
-{
-    visited[i]=true;
-     for(int x:adj[i])
-     {
-         if(visited[x]==false)
-             dfs(adj, s, v, visited, x);
-     }
-     s.push(i);
-}
-vector<int> topoSort(int V, vector<int> adj[]) 
-{
-    vector<int>v;
-    stack<int>s;
-    vector<bool>visited(V+1, false);
-    for(int i=0;i<V;i++)
-    {
-        if(visited[i]==false)
-            dfs(adj, s, v, visited, i);
-    }
-    while(s.empty()==false)
-    {
-        int c=s.top();
-        s.pop();
-        v.push_back(c);
-    }
-    return v;
-}
-}
+	bool dfs(int node,int vis[],stack<int>&st,vector<int> adj[]){
+	    vis[node]=1;
+	    for(auto it:adj[node]){
+	        if(!vis[it]){
+	            dfs(it,vis,st,adj);
+	        }
+	        
+	    }
+	    st.push(node);
+	}
+	vector<int> topoSort(int V, vector<int> adj[]) 
+	{
+	    // code here
+	    int vis[V]={0};
+	    stack<int> st;
+	    for(int i=0;i<V;i++){
+	        if(!vis[i]){
+	            dfs(i,vis,st,adj);
+	        }
+	    }
+	    vector<int>ans;
+	    while(!st.empty()){
+	        ans.push_back(st.top());
+	        st.pop();
+	    }
+	    return ans;
+	}
+};
